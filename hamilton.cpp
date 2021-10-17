@@ -10,13 +10,15 @@ void hamilton_cycle (int n, int** g, vector<int> cycle) {
   visit[cycle.front()] = false;
   vector<int>::iterator v = next(cycle.begin(), 1);
 
-  cout << "(" << cycle.front() << ") -> ";
+  cout << cycle.front() << endl;
+//cout << "(" << cycle.front() << ") -> ";
 
   // continue until the end of the path
   while (v != cycle.end()) {
     // the current vertex has not been visited
     if (visit[*v]) {
-      cout << "(" << *v << ") -> ";
+//    cout << "(" << *v << ") -> ";
+      cout << *v << endl;
       dist += g[*v][*(v+1)];
       visit[*v] = false;
       v = next(v, 1);
@@ -25,7 +27,7 @@ void hamilton_cycle (int n, int** g, vector<int> cycle) {
     }
   }
 
-  cout << "(" << *v << ")" << endl;
   dist += g[*v][*(v+1)];
-  cout << "#cost: " << dist << endl;
+//cout << "(" << *v << ")" << endl;
+//cout << "#cost: " << dist << endl;
 }

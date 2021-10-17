@@ -3,6 +3,7 @@
 /**
   * @Info:    Transforms adjacency list to include a perfect matching list using a greedy algorithm. 
   *           The result is the adjacency list unioned with the perfect matching set (T U M).
+  *           Greedy approximation algorithm.
   */
 void perfect_matching (int n, vector<int>*& adj, int** g) {
   int len;
