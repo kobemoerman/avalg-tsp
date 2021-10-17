@@ -44,21 +44,13 @@ vector<int> euler_circuit (vector<int>* adj) {
 void pop_neighbour (int n, int v, vector<int>* s) {
   uint i = 0;
 
-  for (i = 0; i < s[n].size(); i++)
-  {
+  do {
     if (s[n][i] == v) {
       s[n].erase(s[n].begin() + i);
+      return;
     }
-  }
-  
-
-  // do {
-  //   if (s[n][i] == v) {
-  //     s[n].erase(s[n].begin() + i);
-  //     return;
-  //   }
-  //   i++;
-  // } while (i < s[n].size());
+    i++;
+  } while (i < s[n].size());
   
   return;
 }
