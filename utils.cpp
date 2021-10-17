@@ -52,6 +52,13 @@ vector<city_t> read_stdin (int& n) {
 }
 
 /**
+  * @Info:    Prints the path from the vector.
+  */
+void print_path (vector<int> path) {
+  for (auto p : path) cout << p << endl;
+}
+
+/**
   * @Info:    Allocates memory for a 2D array.
   * @Return:  2D integer array.
   */

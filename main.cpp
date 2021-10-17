@@ -3,6 +3,7 @@
 #include "matching.hpp"
 #include "euler.hpp"
 #include "hamilton.hpp"
+#include "2opt.hpp"
 
 int main (int argc, char **argv) {
 
@@ -37,6 +38,7 @@ int main (int argc, char **argv) {
   do {
     current_t = clock();
 
+    two_opt(n, graph, path);
 
   } while(double(current_t-start_t)/CLOCKS_PER_SEC < 1.99);
 
