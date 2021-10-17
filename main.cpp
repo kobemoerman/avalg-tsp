@@ -26,7 +26,7 @@ int main (int argc, char **argv) {
   vector<int>* adj = build_adjacency(n, mst);
 
   // find graph's perfect matching
-  perfect_matching(n, adj, graph);
+  perfect_matching(n, adj, graph); // TODO: improve?
 
   // determine euler circuit
   vector<int> e_circuit = euler_circuit(adj);
@@ -39,6 +39,8 @@ int main (int argc, char **argv) {
     current_t = clock();
 
     two_opt(start_t, n, graph, path);
+    // TODO: add 2.5-opt
+    // TODO: add 3-opt
 
   } while(TIME_D(current_t, start_t));
 
