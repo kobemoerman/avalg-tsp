@@ -3,7 +3,7 @@
 #include "matching.hpp"
 #include "euler.hpp"
 #include "hamilton.hpp"
-#include "2opt.hpp"
+#include "opt.hpp"
 
 int main (int argc, char **argv) {
 
@@ -35,16 +35,17 @@ int main (int argc, char **argv) {
   vector<int> path = hamilton_cycle(n, graph, e_circuit);
 
   // optimise cycle until timeout=2sec
+  KOPT opt = KOPT(graph, path);
   do {
     current_t = clock();
 
-    two_opt(start_t, n, graph, path);
-    // TODO: add 2.5-opt
+    opt.two(start_t, n);
+    opt.two_half(start_t, n);
     // TODO: add 3-opt
 
   } while(TIME_D(current_t, start_t));
 
-  print_path(path);
+  print_path(opt.get_path(), graph);
 
   return 0;
 }
