@@ -38,9 +38,11 @@ int main (int argc, char **argv) {
   do {
     current_t = clock();
 
-    two_opt(n, graph, path);
+    two_opt(start_t, n, graph, path);
 
-  } while(double(current_t-start_t)/CLOCKS_PER_SEC < 1.99);
+  } while(TIME_D(current_t, start_t));
+
+  print_path(path);
 
   return 0;
 }
