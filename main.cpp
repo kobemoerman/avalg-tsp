@@ -5,6 +5,9 @@
 #include "hamilton.hpp"
 
 int main (int argc, char **argv) {
+
+  // setup timer
+  clock_t current_t, start_t = clock();
   
   // number of cities
   int n;
@@ -28,7 +31,14 @@ int main (int argc, char **argv) {
   vector<int> e_circuit = euler_circuit(adj);
 
   // draw hamiltonian cycle
-  hamilton_cycle(n, graph, e_circuit);
+  vector<int> path = hamilton_cycle(n, graph, e_circuit);
+
+  // optimise cycle until timeout=2sec
+  do {
+    current_t = clock();
+
+
+  } while(double(current_t-start_t)/CLOCKS_PER_SEC < 1.99);
 
   return 0;
 }
