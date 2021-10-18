@@ -3,16 +3,19 @@
 // https://en.wikipedia.org/wiki/2-opt
 
 void KOPT::two (clock_t t, int n) {
-  int i, k, delta;
+  int i, k, di, dk, delta;
 
   for (i = 0; i < n; i++) {
-    for (k = i+3; k < n; k++) {
+    di = (i+1)%n;
+    for (k = i+1; (k+1)%n != i; k++) {
+      dk = (k+1)%n;
+
       if (TIME_U(clock(), t)) return;
 
-      delta = dist(i, k-1) + dist(i+1, k) - (dist(i, i+1) + dist(k-1, k));
+      delta = dist(i, k%n) + dist(di, dk) - (dist(i, di) + dist(k%n, dk));
 
       if (delta < 0) {
-        reverse(p.begin() + i + 1, p.begin() + k);
+        two_opt_swap(n, i+1, k);
       }
     }
   }
