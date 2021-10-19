@@ -37,13 +37,18 @@ int main (int argc, char **argv) {
   // optimise cycle until timeout=2sec
   KOPT opt = KOPT(graph, path);
   do {
-    current_t = clock();
-
     opt.two(start_t, n);
     opt.two_half(start_t, n);
-    // TODO: add 3-opt
+    
+    current_t = clock();
+  } while(TIME_HALF(current_t, start_t));
 
-  } while(TIME_D(current_t, start_t));
+  do {
+    opt.two_half(start_t, n);
+    opt.three(start_t, n);
+
+    current_t = clock();
+  } while(TIME_MAX(current_t, start_t));
 
   print_path(opt.get_path(), graph);
 

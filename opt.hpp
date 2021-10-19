@@ -8,6 +8,7 @@ class KOPT {
 
   void swap_u (int i, int k);
   void swap_d (int i, int k);
+  int reverse_segment_if_better(int i, int j, int k); 
   int dist (int i, int k) { return g[p[i]][p[k]]; }
 
   void two_opt_swap(int n, int start, int end) {
@@ -27,4 +28,5 @@ class KOPT {
     vector<int> get_path () { return p; }
     void two (clock_t t, int n);
     void two_half (clock_t t, int n);
+    void three (clock_t t, int n);
 };
