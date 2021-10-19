@@ -81,10 +81,10 @@ int KOPT::reverse_segment_if_better(int i, int j, int k) {
     reverse(p.begin()+i, p.begin()+j);
     return -d0 + d1;
   } else if(d0 > d2) {
-    reverse(p.begin()+j, p.begin()+k);
+    reverse(p.begin()+j, p.begin()+k); // FIX: k can be out of bounds
     return -d0 + d2;
   } else if(d0 > d4) {
-    reverse(p.begin()+i, p.begin()+k);
+    reverse(p.begin()+i, p.begin()+k); // FIX: k can be out of bounds
     return -d0 + d4;
   } else if(d0 > d3) {
     vector<int> tmp;
