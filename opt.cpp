@@ -90,7 +90,11 @@ int KOPT::reverse_segment_if_better(int i, int j, int k) {
     vector<int> tmp;
     for(z = j; z < k; z++) tmp.push_back(p[z]);
     for(z = i; z < j; z++) tmp.push_back(p[z]);
-    for(z = i; z < k; z++) p[z] = tmp[z];
+    int idx = 0;
+    for(z = i; z < k; z++) {
+        p[z] = tmp[idx];
+        idx++;
+    }
     
     return -d0 + d3;
   }
