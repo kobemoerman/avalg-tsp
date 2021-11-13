@@ -1,5 +1,6 @@
 #include "opt.hpp"
 
+
 // https://en.wikipedia.org/wiki/2-opt
 void KOPT::two (clock_t t, int n) {
   int i, k, di, dk, delta;
@@ -117,4 +118,20 @@ void KOPT::swap_d (int i, int k) {
   p[i+1] = tmp;
 
   return;
+}
+
+void KOPT::shuffle_tour(){
+  std::random_device rd;
+  default_random_engine rng(rd());
+
+  size_t A = rand() % (path_length - path_length / 10);
+  shuffle(p.begin() + A, p.begin() + A + path_length / 10, rng);
+}
+
+int KOPT::path_cost() {
+  int cost = 0;
+  for (uint i = 0; i < p.size(); i++) {
+    cost += g[p[i]][p[i+1]];
+  }
+  return cost; 
 }

@@ -36,21 +36,37 @@ int main (int argc, char **argv) {
 
   // optimise cycle until timeout=2sec
   KOPT opt = KOPT(graph, path);
-  do {
-    opt.two(start_t, n);
-    opt.two_half(start_t, n);
-    
-    current_t = clock();
-  } while(TIME_HALF(current_t, start_t));
+  opt.two(start_t, n);
+  opt.two_half(start_t, n);
+
+  vector<int> best_path = opt.get_path();
+  int curr_cost = opt.path_cost();
 
   do {
+    opt.shuffle_tour();
+    opt.two(start_t, n);
     opt.two_half(start_t, n);
     opt.three(start_t, n);
 
+    int cost = opt.path_cost();
+    if (cost < curr_cost) {
+      best_path = opt.get_path(); 
+      curr_cost = cost;
+    }
     current_t = clock();
   } while(TIME_MAX(current_t, start_t));
 
-  print_path(opt.get_path(), graph);
+  // opt.set_path(best_path);
+
+  // do {
+  //   opt.two(start_t, n);
+  //   opt.two_half(start_t, n);
+  //   opt.three(start_t, n);
+
+  //   current_t = clock();
+  // } while(TIME_MAX(current_t, start_t));
+
+  print_path(best_path, graph);
 
   return 0;
 }
