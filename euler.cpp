@@ -15,18 +15,13 @@ vector<int> euler_circuit (vector<int>* adj) {
   while (!stack_e.empty() || adj[v].size() > 0) {
     // vertex has no neighbours
     if (adj[v].size() == 0) {
-      // add to the circuit
       circuit.push_back(v);
-      // remove the last vertex from the stack
       v = pop_stack(stack_e);
     } else {
-      // add the vertex to the stack
       stack_e.push(v);
-      // take a neighbour
+      // take any neighbour and remove it
       n = adj[v].back();
-      // remove edge at vertex
       adj[v].pop_back();
-      // remove edge at neighbour
       pop_neighbour(n, v, adj);
       // set neighbour as current vertex;
       v = n;

@@ -23,6 +23,6 @@ struct city_t {
 
 inline bool TIME_HALF(clock_t t1, clock_t t2) { return  double(t1-t2)/CLOCKS_PER_SEC < 0.99; }
 inline bool TIME_MAX(clock_t t1, clock_t t2) { return  double(t1-t2)/CLOCKS_PER_SEC < 1.99; }
-inline bool TIME_U(clock_t t1, clock_t t2) { return  double(t1-t2)/CLOCKS_PER_SEC > 1.96; }
+inline bool TIME_U(clock_t t1, clock_t t2) { return  double(t1-t2)/CLOCKS_PER_SEC > 1.99; }
 
 #endif
