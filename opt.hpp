@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
+using namespace std;
 #include "main.hpp"
 #include <random>
 
-using namespace std;
 
 class KOPT {
   int** g;
@@ -28,14 +28,13 @@ class KOPT {
       p = path;
 
       path_length = path.size();
-      
     }
 
     vector<int> get_path () { return p; }
     void two (clock_t t, int n);
     void two_half (clock_t t, int n);
     void three (clock_t t, int n);
-    void shuffle_tour();
+    void shuffle_tour(default_random_engine rng);
     int path_cost();
     void set_path(vector<int> path) {
       p = path;

@@ -54,10 +54,9 @@ void KOPT::three (clock_t t, int n) {
     for (j = i+2; j < n; j++) {
       for (k = j+2; k < n + (i>0); k++){
         reverse_segment_if_better(i, j, k);
-
-        if (TIME_U(clock(), t)) return;
       }
     }
+    if (TIME_U(clock(), t)) return;
   }
   return;
 }
@@ -120,17 +119,15 @@ void KOPT::swap_d (int i, int k) {
   return;
 }
 
-void KOPT::shuffle_tour(){
-  std::random_device rd;
-  default_random_engine rng(rd());
-
-  size_t A = rand() % (path_length - path_length / 10);
-  shuffle(p.begin() + A, p.begin() + A + path_length / 10, rng);
+void KOPT::shuffle_tour(default_random_engine rng){
+  int rand_size = 5 + rand() % (30 - 10);
+  size_t A = rand() % (path_length - int(path_length / rand_size));
+  shuffle(p.begin() + A, p.begin() + A + int(path_length / rand_size), rng);
 }
 
 int KOPT::path_cost() {
   int cost = 0;
-  for (uint i = 0; i < p.size(); i++) {
+  for (uint i = 0; i < p.size()-1; i++) {
     cost += g[p[i]][p[i+1]];
   }
   return cost; 

@@ -1,6 +1,6 @@
 import random
 
-n = 5000
+n = 500
 
 with open(f"{n}.in", "w") as f: 
     f.write(f"{n}")
