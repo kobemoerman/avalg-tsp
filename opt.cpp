@@ -18,8 +18,10 @@ void KOPT::two (clock_t t, int n) {
       }
     }
   }
+  return;
 }
 
+// http://tsp-basics.blogspot.com/2017/03/25-opt.html
 void KOPT::two_half (clock_t t, int n) {
   int i, k, v1, v2;
 
@@ -40,28 +42,26 @@ void KOPT::two_half (clock_t t, int n) {
       if (v2 < v1) swap_d(i,k);
     } 
   }
+  return;
 }
 
 // https://en.wikipedia.org/wiki/3-opt
 void KOPT::three (clock_t t, int n) {
-  int delta = 0;
   int i, j, k;
 
   for (i = 0; i < n; i++) {
     for (j = i+2; j < n; j++) {
       for (k = j+2; k < n + (i>0); k++){
-
-        delta += reverse_segment_if_better(i, j, k);
+        reverse_segment_if_better(i, j, k);
 
         if (TIME_U(clock(), t)) return;
-
-        if (delta >= 0) return;
       }
     }
   }
+  return;
 }
 
-int KOPT::reverse_segment_if_better(int i, int j, int k) {
+void KOPT::reverse_segment_if_better(int i, int j, int k) {
   int z;
   int idx = 0;
 
@@ -80,13 +80,10 @@ int KOPT::reverse_segment_if_better(int i, int j, int k) {
 
   if(d0 > d1) {
     reverse(p.begin()+i, p.begin()+j);
-    return -d0 + d1;
   } else if(d0 > d2) {
     reverse(p.begin()+j, p.begin()+k);
-    return -d0 + d2;
   } else if(d0 > d4) {
     reverse(p.begin()+i, p.begin()+k);
-    return -d0 + d4;
   } else if(d0 > d3) {
     vector<int> tmp;
     for(z = j; z < k; z++) tmp.push_back(p[z]);
@@ -95,11 +92,9 @@ int KOPT::reverse_segment_if_better(int i, int j, int k) {
         p[z] = tmp[idx];
         idx++;
     }
-    
-    return -d0 + d3;
   }
 
-  return 0;
+  return;
 }
 
 void KOPT::swap_u (int i, int k) {
@@ -109,6 +104,8 @@ void KOPT::swap_u (int i, int k) {
     p[v-1] = p[v];
   }
   p[k-1] = tmp;
+
+  return;
 }
 
 void KOPT::swap_d (int i, int k) {
@@ -118,4 +115,6 @@ void KOPT::swap_d (int i, int k) {
     p[v+1] = p[v];
   }
   p[i+1] = tmp;
+
+  return;
 }
