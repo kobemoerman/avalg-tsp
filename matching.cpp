@@ -12,7 +12,7 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
   vector<int>::iterator i, first, last, closest;
   vector<int> odd_v = odd_vertex(n, adj);
 
-  int save_n_best = 3;
+  int save_n_best = 5;
   std::vector<vector<int>::iterator> n_best(save_n_best);
   std::vector<int> n_length {INT_MAX};
 
@@ -22,8 +22,8 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
     first = odd_v.begin();
     last = odd_v.end();
 
-    if (!randomness)
     // pure greedy
+    if (!randomness)
     {
       for (i = first + 1; i != last; i++)
       {
@@ -50,10 +50,12 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
         if (n_best.size() < save_n_best) 
         {
           n_best.push_back(i);
+          n_length.push_back(g[*first][*i]);
         }
         else if (g[*first][*i] < *max_element(begin(n_length), end(n_length))) {
           int max_idx = max_element(begin(n_length), end(n_length)) - begin(n_length);
           n_best[max_idx] = i;
+          n_length[max_idx] = g[*first][*i];
         }
       }
       // select one of the n best 
