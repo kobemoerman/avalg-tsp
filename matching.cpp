@@ -12,7 +12,7 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
   vector<int>::iterator i, first, last, closest;
   vector<int> odd_v = odd_vertex(n, adj);
 
-  int save_n_best = 5;
+  int save_n_best = int(n/10);
   std::vector<vector<int>::iterator> n_best(save_n_best);
   std::vector<int> n_length {INT_MAX};
 
