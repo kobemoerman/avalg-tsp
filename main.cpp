@@ -7,6 +7,8 @@
 #include <fstream>
 
 
+bool KATTIS = true;
+
 int main (int argc, char **argv) {
 
   // setup timer
@@ -64,7 +66,7 @@ int main (int argc, char **argv) {
       cost += graph_copy[path[i]][path[i+1]];
     }
 
-    // matching_costs.push_back(cost);
+    if (!KATTIS) matching_costs.push_back(cost);
 
     if (cost < best_matching_cost) best_matching_path = path;
     current_t = clock();
@@ -94,7 +96,7 @@ int main (int argc, char **argv) {
     opt.two_half(start_t, n);
     //opt.three(start_t, n);
 
-    // cost_array.push_back(opt.path_cost());
+    if (!KATTIS) cost_array.push_back(opt.path_cost());
 
     int cost = opt.path_cost();
     // cout << cost << endl;
@@ -113,11 +115,12 @@ int main (int argc, char **argv) {
   print_path(opt.get_path(), graph);
 
   // write cost into file
-  // std::ofstream outFile("costs.dat");
-  // for (const auto &e : cost_array) outFile << e << "\n";
+  if (!KATTIS) {
+    std::ofstream outFile("costs.dat");
+    for (const auto &e : cost_array) outFile << e << "\n";
 
-  // std::ofstream outFile2("matching.dat");
-  // for (const auto &e :matching_costs) outFile2 << e << "\n";
-
+    std::ofstream outFile2("matching.dat");
+    for (const auto &e :matching_costs) outFile2 << e << "\n";
+  }
   return 0;
 }

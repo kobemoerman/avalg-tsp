@@ -120,7 +120,7 @@ void KOPT::swap_d (int i, int k) {
 }
 
 void KOPT::shuffle_tour(default_random_engine rng){
-  int rand_size = 5 + rand() % (30 - 10);
+  int rand_size = 20;
   size_t A = rand() % (path_length - int(path_length / rand_size));
   shuffle(p.begin() + A, p.begin() + A + int(path_length / rand_size), rng);
 }
