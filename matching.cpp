@@ -47,7 +47,7 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
           closest = i;
         }
 
-        if (n_best.size() < save_n_best) 
+        if (int(n_best.size()) < save_n_best) 
         {
           n_best.push_back(i);
           n_length.push_back(g[*first][*i]);
@@ -59,7 +59,7 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
         }
       }
       // select one of the n best 
-      if (rand() % 100 < 5) {
+      if (rand() % 100 < 10) {
         closest = n_best[rand() % n_best.size()];
       }
     }

@@ -63,10 +63,12 @@ int main (int argc, char **argv) {
     for (uint i = 0; i < path.size()-1; i++) {
       cost += graph_copy[path[i]][path[i+1]];
     }
-    cout << cost << endl;
-    matching_costs.push_back(cost);
+
+    // matching_costs.push_back(cost);
+
     if (cost < best_matching_cost) best_matching_path = path;
     current_t = clock();
+
   } while (TIME_TEN(current_t, start_t));
   
 
@@ -82,7 +84,6 @@ int main (int argc, char **argv) {
   default_random_engine rng(rd());
 
   vector<int> cost_array {};
-
   bool shuffle = false;
 
   do {
@@ -93,7 +94,8 @@ int main (int argc, char **argv) {
     opt.two_half(start_t, n);
     //opt.three(start_t, n);
 
-    cost_array.push_back(opt.path_cost());
+    // cost_array.push_back(opt.path_cost());
+
     int cost = opt.path_cost();
     // cout << cost << endl;
     if (cost < curr_cost) {
@@ -108,14 +110,14 @@ int main (int argc, char **argv) {
     current_t = clock();
   } while(TIME_MAX(current_t, start_t));
 
-  // print_path(best_path, graph);
+  print_path(opt.get_path(), graph);
 
   // write cost into file
-  std::ofstream outFile("costs.dat");
-  for (const auto &e : cost_array) outFile << e << "\n";
+  // std::ofstream outFile("costs.dat");
+  // for (const auto &e : cost_array) outFile << e << "\n";
 
-  std::ofstream outFile2("matching.dat");
-  for (const auto &e :matching_costs) outFile2 << e << "\n";
+  // std::ofstream outFile2("matching.dat");
+  // for (const auto &e :matching_costs) outFile2 << e << "\n";
 
   return 0;
 }
