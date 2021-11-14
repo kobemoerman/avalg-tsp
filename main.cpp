@@ -4,6 +4,8 @@
 #include "euler.hpp"
 #include "hamilton.hpp"
 #include "opt.hpp"
+#include <fstream>
+
 
 int main (int argc, char **argv) {
 
@@ -36,23 +38,37 @@ int main (int argc, char **argv) {
 
   // optimise cycle until timeout=2sec
   KOPT opt = KOPT(graph, path);
-  opt.two(start_t, n);
-  opt.two_half(start_t, n);
 
   vector<int> best_path = opt.get_path();
   int curr_cost = opt.path_cost();
+  int previous_cost = 0;
+
+  std::random_device rd;
+  default_random_engine rng(rd());
+
+  // vector<int> cost_array {};
+
+  bool shuffle = false;
 
   do {
-    opt.shuffle_tour();
+
+    if (shuffle) {opt.shuffle_tour(rng); shuffle = false;}
+
     opt.two(start_t, n);
     opt.two_half(start_t, n);
-    opt.three(start_t, n);
+    // opt.three(start_t, n);
 
+    // cost_array.push_back(opt.path_cost());
     int cost = opt.path_cost();
+    // cout << cost << endl;
     if (cost < curr_cost) {
       best_path = opt.get_path(); 
       curr_cost = cost;
     }
+
+    if (cost >= previous_cost) shuffle = true;
+    previous_cost = cost;
+
     current_t = clock();
   } while(TIME_MAX(current_t, start_t));
 
@@ -67,6 +83,10 @@ int main (int argc, char **argv) {
   // } while(TIME_MAX(current_t, start_t));
 
   print_path(best_path, graph);
+
+  // write cost into file
+  // std::ofstream outFile("costs.dat");
+  // for (const auto &e : cost_array) outFile << e << "\n";
 
   return 0;
 }

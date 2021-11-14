@@ -120,17 +120,14 @@ void KOPT::swap_d (int i, int k) {
   return;
 }
 
-void KOPT::shuffle_tour(){
-  std::random_device rd;
-  default_random_engine rng(rd());
-
-  size_t A = rand() % (path_length - path_length / 10);
-  shuffle(p.begin() + A, p.begin() + A + path_length / 10, rng);
+void KOPT::shuffle_tour(default_random_engine rng){
+  size_t A = rand() % (path_length - int(path_length / 20));
+  shuffle(p.begin() + A, p.begin() + A + int(path_length / 20), rng);
 }
 
 int KOPT::path_cost() {
   int cost = 0;
-  for (uint i = 0; i < p.size(); i++) {
+  for (uint i = 0; i < p.size()-1; i++) {
     cost += g[p[i]][p[i+1]];
   }
   return cost; 
