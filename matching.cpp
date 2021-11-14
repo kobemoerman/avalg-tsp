@@ -12,6 +12,10 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
   vector<int>::iterator i, first, last, closest;
   vector<int> odd_v = odd_vertex(n, adj);
 
+  int save_n_best = 3;
+  std::vector<vector<int>::iterator> n_best(save_n_best);
+  std::vector<int> n_length {INT_MAX};
+
   while (!odd_v.empty())
   {
     len = INT_MAX;
@@ -32,20 +36,29 @@ void perfect_matching(int n, vector<int> *&adj, int **g, bool randomness)
     }
     else
     {
-      if (((rand() % 100) < 80))
+      n_best.clear();
+      n_length.clear();
+
+      for (i = first + 1; i != last; i++)
       {
-        for (i = first + 1; i != last; i++)
+        if (g[*first][*i] < len)
         {
-          if (g[*first][*i] < len)
-          {
-            len = g[*first][*i];
-            closest = i;
-          }
+          len = g[*first][*i];
+          closest = i;
+        }
+
+        if (n_best.size() < save_n_best) 
+        {
+          n_best.push_back(i);
+        }
+        else if (g[*first][*i] < *max_element(begin(n_length), end(n_length))) {
+          int max_idx = max_element(begin(n_length), end(n_length)) - begin(n_length);
+          n_best[max_idx] = i;
         }
       }
-      else
-      {
-        closest = odd_v.begin() + (rand() % (odd_v.size()-1));
+      // select one of the n best 
+      if (rand() % 100 < 5) {
+        closest = n_best[rand() % n_best.size()];
       }
     }
 

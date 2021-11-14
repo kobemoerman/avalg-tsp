@@ -25,8 +25,6 @@ int main (int argc, char **argv) {
   // find the minimum spanning tree
   int* mst = find_mst(n, graph);
 
-  // build an adjacency list
-  vector<int>* adj = build_adjacency(n, mst);
   vector<int> e_circuit;
   vector<int> path;
   vector<int> best_path;
@@ -39,6 +37,7 @@ int main (int argc, char **argv) {
   
   do {
 
+    // create deep copy of graph (maybe use memcopy)
     for (int j = 0; j < n; j++) {
       for (int k = 0; k < n; k++){
         graph_copy[j][k] = graph[j][k];
@@ -46,6 +45,7 @@ int main (int argc, char **argv) {
     }
 
     vector<int>* adj_copy = build_adjacency(n,mst);
+
     // // find graph's perfect matching
     perfect_matching(n, adj_copy, graph_copy, randomize); // TODO: improve?
 
@@ -65,10 +65,9 @@ int main (int argc, char **argv) {
     }
     cout << cost << endl;
     matching_costs.push_back(cost);
-
     if (cost < best_matching_cost) best_matching_path = path;
     current_t = clock();
-  } while (TIME_TWENTY(current_t, start_t));
+  } while (TIME_TEN(current_t, start_t));
   
 
   // optimise cycle until timeout=2sec
@@ -109,23 +108,14 @@ int main (int argc, char **argv) {
     current_t = clock();
   } while(TIME_MAX(current_t, start_t));
 
-  // do {
-  //   opt.two(start_t, n);
-  //   opt.two_half(start_t, n);
-  //   opt.three(start_t, n);
-
-  //   cost_array.push_back(opt.path_cost());
-  //   current_t = clock();
-  // } while(TIME_MAX(current_t, start_t));
-
-  print_path(best_path, graph);
+  // print_path(best_path, graph);
 
   // write cost into file
-  // std::ofstream outFile("costs.dat");
-  // for (const auto &e : cost_array) outFile << e << "\n";
+  std::ofstream outFile("costs.dat");
+  for (const auto &e : cost_array) outFile << e << "\n";
 
-  // std::ofstream outFile2("matching.dat");
-  // for (const auto &e :matching_costs) outFile2 << e << "\n";
+  std::ofstream outFile2("matching.dat");
+  for (const auto &e :matching_costs) outFile2 << e << "\n";
 
   return 0;
 }
