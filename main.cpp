@@ -22,7 +22,6 @@ int main (int argc, char **argv) {
 
   // calculate a distance matrix
   int** graph = distance_matrix(n, input);
-  int** graph_copy = init2Darray(n);
 
   // find the minimum spanning tree
   int* mst = find_mst(n, graph);
@@ -30,6 +29,7 @@ int main (int argc, char **argv) {
   vector<int> e_circuit;
   vector<int> path;
   vector<int> best_path;
+  vector<int>* adj;
 
   int best_matching_cost = INT_MAX;
   vector<int> best_matching_path;
@@ -38,44 +38,34 @@ int main (int argc, char **argv) {
   bool randomize = false;
   
   do {
-
-    // create deep copy of graph (maybe use memcopy)
-    for (int j = 0; j < n; j++) {
-      for (int k = 0; k < n; k++){
-        graph_copy[j][k] = graph[j][k];
-      }
-    }
-
     vector<int>* adj_copy = build_adjacency(n,mst);
 
     // // find graph's perfect matching
-    perfect_matching(n, adj_copy, graph_copy, randomize); // TODO: improve?
+    int cost = perfect_matching(n, adj_copy, graph, randomize); // TODO: improve?
 
     // make first run completly greedy and the rest a bit random 
     randomize = true;
 
-    // // determine euler circuit
-    e_circuit = euler_circuit(adj_copy);
-    vector<int> e_circuit_copy = e_circuit;
-
-    // // draw hamiltonian cycle
-    path = hamilton_cycle(n, graph_copy, e_circuit_copy);
-
-    int cost = 0;
-    for (uint i = 0; i < path.size()-1; i++) {
-      cost += graph_copy[path[i]][path[i+1]];
-    }
-
     if (!KATTIS) matching_costs.push_back(cost);
 
-    if (cost < best_matching_cost) best_matching_path = path;
+    if (cost < best_matching_cost) {
+      adj = adj_copy;
+      best_matching_cost = cost;
+    }
     current_t = clock();
 
   } while (TIME_TEN(current_t, start_t));
   
+  // // determine euler circuit
+  e_circuit = euler_circuit(adj);
+  vector<int> e_circuit_copy = e_circuit;
+
+  // // draw hamiltonian cycle
+  path = hamilton_cycle(n, graph, e_circuit_copy);
 
   // optimise cycle until timeout=2sec
-  KOPT opt = KOPT(graph, best_matching_path);
+  KOPT opt = KOPT(graph, path);
+
   opt.two(start_t, n);
   opt.two_half(start_t, n);
   
