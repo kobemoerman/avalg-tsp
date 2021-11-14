@@ -6,7 +6,7 @@
 #include "opt.hpp"
 #include <fstream>
 
-bool KATTIS = true;
+bool KATTIS = false;
 
 int main(int argc, char **argv)
 {
@@ -27,10 +27,32 @@ int main(int argc, char **argv)
   int *mst = find_mst(n, graph);
 
   // build an adjacency list
-  vector<int> *adj = build_adjacency(n, mst);
+  vector<int> *adj;
 
-  // find graph's perfect matching
-  perfect_matching(n, adj, graph); // TODO: improve?
+  int best_matching_cost = INT_MAX;
+  vector<int> best_matching_path;
+
+  vector<int> matching_costs {};
+  bool randomize = false;
+  
+  do {
+    vector<int>* adj_copy = build_adjacency(n,mst);
+
+    // // find graph's perfect matching
+    int cost = perfect_matching(n, adj_copy, graph, randomize); // TODO: improve?
+
+    // make first run completly greedy and the rest a bit random 
+    randomize = true;
+
+    if (!KATTIS) matching_costs.push_back(cost);
+
+    if (cost < best_matching_cost) {
+      adj = adj_copy;
+      best_matching_cost = cost;
+    }
+    current_t = clock();
+  // } while (false);
+  } while (TIME_TEN(current_t, start_t));
 
   // determine euler circuit
   vector<int> e_circuit = euler_circuit(adj);
@@ -100,6 +122,9 @@ int main(int argc, char **argv)
     std::ofstream outFile("costs.dat");
     for (const auto &e : cost_array)
       outFile << e << "\n";
+
+    std::ofstream outFile2("matching.dat");
+    for (const auto &e :matching_costs) outFile2 << e << "\n";
   }
 
   return 0;
