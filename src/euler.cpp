@@ -6,18 +6,23 @@
   * @Info:    Given an undirected find a path or circuit that passes through each edge exactly once.
   * @Return:  Vector path.
   */
-vector<int> euler_circuit (vector<int>* adj) {
+vector<int> euler_circuit(vector<int> *adj)
+{
   int n, v = 0;
   vector<int> circuit;
   stack<int> stack_e;
 
-  // repeat until the current vertex has no more neighbors and the stack is empty 
-  while (!stack_e.empty() || adj[v].size() > 0) {
+  // repeat until the current vertex has no more neighbors and the stack is empty
+  while (!stack_e.empty() || adj[v].size() > 0)
+  {
     // vertex has no neighbours
-    if (adj[v].size() == 0) {
+    if (adj[v].size() == 0)
+    {
       circuit.push_back(v);
       v = pop_stack(stack_e);
-    } else {
+    }
+    else
+    {
       stack_e.push(v);
       // take any neighbour and remove it
       n = adj[v].back();
@@ -36,17 +41,20 @@ vector<int> euler_circuit (vector<int>* adj) {
 /**
   * @Info:    Remove vertex v from neighbour n.
   */
-void pop_neighbour (int n, int v, vector<int>* s) {
+void pop_neighbour(int n, int v, vector<int> *s)
+{
   uint i = 0;
 
-  do {
-    if (s[n][i] == v) {
+  do
+  {
+    if (s[n][i] == v)
+    {
       s[n].erase(s[n].begin() + i);
       return;
     }
     i++;
   } while (i < s[n].size());
-  
+
   return;
 }
 
@@ -54,7 +62,8 @@ void pop_neighbour (int n, int v, vector<int>* s) {
   * @Info:    Pop stack and return value.
   * @Return:  Int at top of stack.
   */
-int pop_stack(stack<int>& s) {
+int pop_stack(stack<int> &s)
+{
   int res;
 
   res = s.top(), s.pop();

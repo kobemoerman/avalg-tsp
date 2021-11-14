@@ -6,12 +6,14 @@
 #include "opt.hpp"
 #include <fstream>
 
+bool KATTIS = true;
 
-int main (int argc, char **argv) {
+int main(int argc, char **argv)
+{
 
   // setup timer
   clock_t current_t, start_t = clock();
-  
+
   // number of cities
   int n;
 
@@ -19,13 +21,13 @@ int main (int argc, char **argv) {
   vector<city_t> input = read_stdin(n);
 
   // calculate a distance matrix
-  int** graph = distance_matrix(n, input);
+  int **graph = distance_matrix(n, input);
 
   // find the minimum spanning tree
-  int* mst = find_mst(n, graph);
+  int *mst = find_mst(n, graph);
 
   // build an adjacency list
-  vector<int>* adj = build_adjacency(n, mst);
+  vector<int> *adj = build_adjacency(n, mst);
 
   // find graph's perfect matching
   perfect_matching(n, adj, graph); // TODO: improve?
@@ -46,31 +48,39 @@ int main (int argc, char **argv) {
   std::random_device rd;
   default_random_engine rng(rd());
 
-  // vector<int> cost_array {};
+  vector<int> cost_array{};
 
   bool shuffle = false;
 
-  do {
+  do
+  {
 
-    if (shuffle) {opt.shuffle_tour(rng); shuffle = false;}
+    if (shuffle)
+    {
+      opt.shuffle_tour(rng);
+      shuffle = false;
+    }
 
     opt.two(start_t, n);
     opt.two_half(start_t, n);
     // opt.three(start_t, n);
 
-    // cost_array.push_back(opt.path_cost());
+    if (!KATTIS)
+      cost_array.push_back(opt.path_cost());
+
     int cost = opt.path_cost();
-    // cout << cost << endl;
-    if (cost < curr_cost) {
-      best_path = opt.get_path(); 
+    if (cost < curr_cost)
+    {
+      best_path = opt.get_path();
       curr_cost = cost;
     }
 
-    if (cost >= previous_cost) shuffle = true;
+    if (cost >= previous_cost)
+      shuffle = true;
     previous_cost = cost;
 
     current_t = clock();
-  } while(TIME_MAX(current_t, start_t));
+  } while (TIME_MAX(current_t, start_t));
 
   // opt.set_path(best_path);
 
@@ -85,8 +95,12 @@ int main (int argc, char **argv) {
   print_path(best_path, graph);
 
   // write cost into file
-  // std::ofstream outFile("costs.dat");
-  // for (const auto &e : cost_array) outFile << e << "\n";
+  if (!KATTIS)
+  {
+    std::ofstream outFile("costs.dat");
+    for (const auto &e : cost_array)
+      outFile << e << "\n";
+  }
 
   return 0;
 }

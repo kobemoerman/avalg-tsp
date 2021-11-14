@@ -5,7 +5,7 @@ OUT_FILE = tsp
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
 CFLAGS = -g -Wall
-DIRS := .
+DIRS := ./src
 SOURCES := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.cpp))
 
 all: 
