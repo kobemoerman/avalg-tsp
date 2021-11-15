@@ -151,8 +151,15 @@ void KOPT::swap_d(int i, int k)
 
 void KOPT::shuffle_tour(default_random_engine rng)
 {
-  size_t A = rand() % (path_length - int(path_length / 20));
-  shuffle(p.begin() + A, p.begin() + A + int(path_length / 20), rng);
+  if (path_length < 10) 
+  {
+    shuffle(p.begin(), p.end(), rng);
+  } 
+  else
+  {
+    size_t A = rand() % (path_length - int(path_length / 10));
+    shuffle(p.begin() + A, p.begin() + A + int(path_length / 10), rng);
+  }
 }
 
 int KOPT::path_cost()

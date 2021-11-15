@@ -41,57 +41,45 @@ int main(int argc, char **argv)
   // optimise cycle until timeout=2sec
   KOPT opt = KOPT(graph, path);
 
-  vector<int> best_path = opt.get_path();
   int curr_cost = opt.path_cost();
-  int previous_cost = 0;
+  vector<int> best_path = opt.get_path();
 
   std::random_device rd;
   default_random_engine rng(rd());
 
   vector<int> cost_array{};
 
+  int cost, freq, reg = 0;
   bool shuffle = false;
 
-  do
-  {
-
+  current_t = clock();
+  for (freq = 1; TIME_MAX(current_t, start_t); current_t = clock(), freq++) {
     if (shuffle)
     {
+      // cout << "SHUFFLE" << endl;
       opt.shuffle_tour(rng);
       shuffle = false;
+      reg++;
     }
 
     opt.two(start_t, n);
     opt.two_half(start_t, n);
-    // opt.three(start_t, n);
 
-    if (!KATTIS)
-      cost_array.push_back(opt.path_cost());
-
-    int cost = opt.path_cost();
+    cost = opt.path_cost();
     if (cost < curr_cost)
     {
+      // cout << "BEST " << cost << endl;
       best_path = opt.get_path();
       curr_cost = cost;
+      freq = 1;
     }
 
-    if (cost >= previous_cost)
-      shuffle = true;
-    previous_cost = cost;
+    if (freq%(5 + int(reg/10)) == 0) shuffle = true;
+    
+    if (!KATTIS) cost_array.push_back(cost);
+  }
 
-    current_t = clock();
-  } while (TIME_MAX(current_t, start_t));
-
-  // opt.set_path(best_path);
-
-  // do {
-  //   opt.two(start_t, n);
-  //   opt.two_half(start_t, n);
-  //   opt.three(start_t, n);
-
-  //   current_t = clock();
-  // } while(TIME_MAX(current_t, start_t));
-
+  // cout << curr_cost << endl;
   print_path(best_path, graph);
 
   // write cost into file
