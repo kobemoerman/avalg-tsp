@@ -88,6 +88,10 @@ int main(int argc, char **argv)
     std::ofstream outFile("costs.dat");
     for (const auto &e : cost_array)
       outFile << e << "\n";
+
+    std::ofstream outFilePath("path.dat");
+    for (const auto &e :best_path)
+      outFilePath << e << "\n";
   }
 
   return 0;

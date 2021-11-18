@@ -22,3 +22,8 @@ make
 ## Analysis 
 
 In the order scripts are scripts to create new input data for testing. Also in the main.cpp the value KATTIS can be set to false. Then the current costs are written to a file which can be plotted and analyzed with the script plot_costs.py.
+
+```bash 
+python3 scripts/plot_tsp.py
+python3 scripts/plot_costs.py
+```
