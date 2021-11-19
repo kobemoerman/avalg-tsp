@@ -60,16 +60,20 @@ vector<city_t> read_stdin(int &n)
 /**
   * @Info:    Prints the path from the vector.
   */
-void print_path(vector<int> path, int **g)
+int print_path(vector<int> path, int **g, bool KATTIS)
 {
+  if (!KATTIS) {
   int cost = 0;
-  for (uint i = 0; i < path.size(); i++) {
-    cost += g[path[i]][path[i+1]];
-    // cout << path[i] << " ";
+    for (uint i = 0; i < path.size(); i++) {
+      cost += g[path[i]][path[i+1]];
+      // cout << path[i] << " ";
+    }
+    cout << "#" << cost << endl;
+    return cost;
+  } else {
+  for (auto p : path) cout << p << endl;
+  return 0;
   }
-  cout << "#" << cost << endl;
-  // for (auto p : path)
-  //   cout << p << endl;
 }
 
 /**

@@ -59,6 +59,7 @@ void KOPT::two_half(clock_t t, int n)
 void KOPT::three(clock_t t, int n)
 {
   int i, j, k;
+  int delta = 0;
 
   for (i = 0; i < n; i++)
   {
@@ -66,9 +67,8 @@ void KOPT::three(clock_t t, int n)
     {
       for (k = j + 2; k < n + (i > 0); k++)
       {
-        reverse_segment_if_better(i, j, k);
-
-        if (TIME_U(clock(), t))
+        delta += reverse_segment_if_better(i, j, k);
+        if (TIME_U(clock(), t) || delta >= 0)
           return;
       }
     }
@@ -76,7 +76,7 @@ void KOPT::three(clock_t t, int n)
   return;
 }
 
-void KOPT::reverse_segment_if_better(int i, int j, int k)
+int KOPT::reverse_segment_if_better(int i, int j, int k)
 {
   int z;
   int idx = 0;
@@ -97,14 +97,17 @@ void KOPT::reverse_segment_if_better(int i, int j, int k)
   if (d0 > d1)
   {
     reverse(p.begin() + i, p.begin() + j);
+    return -d0 + d1;
   }
   else if (d0 > d2)
   {
     reverse(p.begin() + j, p.begin() + k);
+    return -d0 + d2;
   }
   else if (d0 > d4)
   {
     reverse(p.begin() + i, p.begin() + k);
+    return -d0 + d4;
   }
   else if (d0 > d3)
   {
@@ -118,9 +121,9 @@ void KOPT::reverse_segment_if_better(int i, int j, int k)
       p[z] = tmp[idx];
       idx++;
     }
+    return -d0 + d3;
   }
-
-  return;
+  return 0;
 }
 
 void KOPT::swap_u(int i, int k)
@@ -158,7 +161,7 @@ void KOPT::shuffle_tour(default_random_engine rng)
 int KOPT::path_cost()
 {
   int cost = 0;
-  for (uint i = 0; i < p.size() - 1; i++)
+  for (uint i = 0; i < p.size(); i++)
   {
     cost += g[p[i]][p[i + 1]];
   }

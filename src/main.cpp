@@ -11,14 +11,20 @@ bool KATTIS = false;
 int main(int argc, char **argv)
 {
 
-  // setup timer
-  clock_t current_t, start_t = clock();
+  int number_runs = 10;
+  if (KATTIS) number_runs = 1;
+  double average_cost = 0;
 
   // number of cities
   int n;
 
   // read the input from stdin
   vector<city_t> input = read_stdin(n);
+
+  for (int run = 0; run < number_runs; run++) {
+
+  // setup timer
+  clock_t current_t, start_t = clock();
 
   // calculate a distance matrix
   int **graph = distance_matrix(n, input);
@@ -51,8 +57,7 @@ int main(int argc, char **argv)
       best_matching_cost = cost;
     }
     current_t = clock();
-  // } while (false);
-  } while (TIME_TEN(current_t, start_t));
+  } while (TIME_FOURTY(current_t, start_t));
 
   // determine euler circuit
   vector<int> e_circuit = euler_circuit(adj);
@@ -85,16 +90,18 @@ int main(int argc, char **argv)
 
     opt.two(start_t, n);
     opt.two_half(start_t, n);
-    // opt.three(start_t, n);
-
-    if (!KATTIS)
-      cost_array.push_back(opt.path_cost());
+    opt.three(start_t, n);
 
     int cost = opt.path_cost();
+
+    if (!KATTIS)
+      cost_array.push_back(cost);
+
     if (cost < curr_cost)
     {
       best_path = opt.get_path();
       curr_cost = cost;
+      // cout << "New best path: " << cost << endl;
     }
 
     if (cost >= previous_cost)
@@ -114,7 +121,9 @@ int main(int argc, char **argv)
   //   current_t = clock();
   // } while(TIME_MAX(current_t, start_t));
 
-  print_path(best_path, graph);
+  // for (int i = 0; i < int(best_path.size()); i++) assert(best_path[i] == real_best_path[i]);
+
+  average_cost += print_path(best_path, graph, KATTIS);
 
   // write cost into file
   if (!KATTIS)
@@ -125,6 +134,12 @@ int main(int argc, char **argv)
 
     std::ofstream outFile2("matching.dat");
     for (const auto &e :matching_costs) outFile2 << e << "\n";
+    }
+  }
+
+  if (!KATTIS && number_runs > 1) {
+    average_cost = average_cost / number_runs;
+    cout << "Average cost: " << int(average_cost) << endl;
   }
 
   return 0;
