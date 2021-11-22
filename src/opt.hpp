@@ -6,12 +6,14 @@ using namespace std;
 class KOPT
 {
   int **g;
+  int **neighbors;
+  int k_max;
   vector<int> p;
   int path_length;
 
   void swap_u(int i, int k);
   void swap_d(int i, int k);
-  void reverse_segment_if_better(int i, int j, int k);
+  int reverse_segment_if_better(int i, int j, int k);
   int dist(int i, int k) { return g[p[i]][p[k]]; }
 
   void two_opt_swap(int n, int start, int end)
@@ -25,10 +27,12 @@ class KOPT
   }
 
 public:
-  KOPT(int **graph, vector<int> path)
+  KOPT(int **graph, vector<int> path, int **neighbor, int K_MAX)
   {
     g = graph;
+    neighbors = neighbor;
     p = path;
+    k_max = K_MAX;
 
     path_length = path.size();
   }

@@ -6,7 +6,7 @@
 #include "opt.hpp"
 #include <fstream>
 
-bool KATTIS = true;
+bool KATTIS = false;
 
 int main(int argc, char **argv)
 {
@@ -16,12 +16,14 @@ int main(int argc, char **argv)
 
   // number of cities
   int n;
+  int MAX_K = 10;
 
   // read the input from stdin
   vector<city_t> input = read_stdin(n);
 
   // calculate a distance matrix
   int **graph = distance_matrix(n, input);
+  int **neighbor = createNeighborsMatrix(n, graph, MAX_K);
 
   // find the minimum spanning tree
   int *mst = find_mst(n, graph);
@@ -39,7 +41,7 @@ int main(int argc, char **argv)
   vector<int> path = hamilton_cycle(n, graph, e_circuit);
 
   // optimise cycle until timeout=2sec
-  KOPT opt = KOPT(graph, path);
+  KOPT opt = KOPT(graph, path, neighbor, MAX_K);
 
   int curr_cost = opt.path_cost();
   vector<int> best_path = opt.get_path();
@@ -64,8 +66,9 @@ int main(int argc, char **argv)
 
     opt.two(start_t, n);
     opt.two_half(start_t, n);
+    opt.three(start_t, n);
 
-    cost = opt.path_cost();
+      cost = opt.path_cost();
     if (cost < curr_cost)
     {
       // cout << "BEST " << cost << endl;
