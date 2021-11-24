@@ -60,16 +60,15 @@ void KOPT::three(clock_t t, int n)
 {
   int i, j, k;
 
-  int tmp1, tmp2;
+  int curr_near, curr_near_near;
 
   for (i = 0; i < n; i++) {
-      for (j = 0; j < KOPT::k_max; j++) {
-          tmp1 = neighbors[i][j];
-          if (tmp1 == KOPT::k_max) continue;
-          for (k = 0; k < KOPT::k_max; k++) {
-              tmp2 = neighbors[tmp1][k];
-              if (tmp1 == tmp2 || tmp1 == i || tmp2 == i) continue;
-              reverse_segment_if_better(i, tmp1, tmp2);
+      for (j = 0; j < k_max; j++) {
+          curr_near = neighbors[i][j];
+          for (k = 0; k < k_max; k++) {
+              curr_near_near = neighbors[curr_near][k];
+              if (curr_near == curr_near_near || curr_near_near == i) continue;
+              reverse_segment_if_better(i, curr_near, curr_near_near);
               if (TIME_U(clock(), t)) return;
           }
       }
@@ -79,7 +78,6 @@ void KOPT::three(clock_t t, int n)
 int KOPT::reverse_segment_if_better(int i, int j, int k)
 {
   int z;
-  int idx = 0;
 
   int A = i - 1;
   int B = i;
@@ -110,8 +108,9 @@ int KOPT::reverse_segment_if_better(int i, int j, int k)
     return -d0+d4;
   }
   else if (d0 > d3)
-{
+    {
 
+  int idx = 0;
   vector<int> tmp;
   for (z = j; z < k; z++)
       tmp.push_back(p[z]);

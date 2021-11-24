@@ -32,7 +32,7 @@ public:
     g = graph;
     neighbors = neighbor;
     p = path;
-    k_max = K_MAX;
+    k_max = min(K_MAX, (int)path.size())-1;
 
     path_length = path.size();
   }

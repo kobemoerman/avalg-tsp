@@ -22,27 +22,28 @@ int **distance_matrix(int n, vector<city_t> v)
   return m;
 }
 
-int **createNeighborsMatrix(int n, int** d, int K) {
+int **createNeighborsMatrix(int n, int** d, int k_max) {
 
-  K = min(n, K);
+  k_max = min(n, k_max);
   int **m = (int **)malloc(n * sizeof(int *));
   for (int i = 0; i < n; i++)
   {
-    m[i] = (int *)malloc(K * sizeof(int));
+    m[i] = (int *)malloc(k_max * sizeof(int));
   }
-  vector<int> row(n);
+  vector<int> row(n-1);
 
   for (int i = 0; i < n; ++i) {
-    uint16_t k = 0;
-    for (int j = 0; j < n; ++j, ++k) {
-      row[j] = (i == j) ? ++k : k;
+    for (int j = 0; j < n; ++j) {
+      if (i == j) continue;
+      row[j] = j;
     }
-    partial_sort(row.begin(), row.begin() + K, row.end(),
+
+    partial_sort(row.begin(), row.begin() + k_max, row.end(),
                  [&](uint16_t j, uint16_t k) {
                      return d[i][j] < d[i][k];
                  }
     );
-    copy(row.begin(), row.begin() + K, m[i]);
+    copy(row.begin(), row.begin() + k_max - 1, m[i]);
   }
   return m;
 }
