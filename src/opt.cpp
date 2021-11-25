@@ -59,6 +59,7 @@ void KOPT::two_half(clock_t t, int n)
 void KOPT::three(clock_t t, int n)
 {
   int i, j, k;
+  vector<int>::iterator it_i, it_j, it_k;
 
   int curr_near, curr_near_near;
 
@@ -68,7 +69,12 @@ void KOPT::three(clock_t t, int n)
           for (k = 0; k < k_max; k++) {
               curr_near_near = neighbors[curr_near][k];
               if (curr_near == curr_near_near || curr_near_near == i) continue;
-              reverse_segment_if_better(i, curr_near, curr_near_near);
+              // determine the indizes of the elements in the path
+              it_i = std::find(p.begin(), p.end(), i);
+              it_j = std::find(p.begin(), p.end(), curr_near);
+              it_k = std::find(p.begin(), p.end(), curr_near_near);
+              reverse_segment_if_better(*it_i, *it_j, *it_k);
+              //reverse_segment_if_better(i, curr_near, curr_near_near);
               if (TIME_U(clock(), t)) return;
           }
       }
@@ -77,14 +83,21 @@ void KOPT::three(clock_t t, int n)
 
 int KOPT::reverse_segment_if_better(int i, int j, int k)
 {
+
+  std::vector<int> tmp {i,j,k};
+  std::sort(tmp.begin(), tmp.end());
+
   int z;
 
-  int A = i - 1;
-  int B = i;
-  int C = j - 1;
-  int D = j;
-  int E = k - 1;
-  int F = k % p.size();
+  int A = tmp[0] - 1;
+  if (A < 0) A = path_length - 1;
+  int B = tmp[0];
+  int C = tmp[1] - 1;
+    if (C < 0) C = path_length - 1;
+  int D = tmp[1];
+  int E = tmp[2] - 1;
+    if (E < 0) E = path_length - 1;
+  int F = tmp[2] % p.size();
 
   int d0 = dist(A, B) + dist(C, D) + dist(E, F);
   int d1 = dist(A, C) + dist(B, D) + dist(E, F);
