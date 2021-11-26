@@ -6,7 +6,7 @@
 #include "opt.hpp"
 #include <fstream>
 
-bool KATTIS = true;
+bool KATTIS = false;
 
 int main(int argc, char **argv)
 {

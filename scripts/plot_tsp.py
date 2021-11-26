@@ -38,6 +38,6 @@ if __name__ == '__main__':
 
 	path = np.loadtxt("path.dat").flatten()
 	# initial_path = np.loadtxt("initPath.dat").flatten()
-	graph = np.loadtxt("data/1000.in", skiprows=1).tolist()
+	graph = np.loadtxt("data/100.in", skiprows=1).tolist()
 		
-	plotTSP(path, graph, initial_path)
+	plotTSP(path, graph, initial_path=None)
