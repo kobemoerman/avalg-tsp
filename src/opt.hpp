@@ -3,48 +3,25 @@ using namespace std;
 #include "main.hpp"
 #include <random>
 
-class KOPT
+class LK_HEUR
 {
-  int **g;
-  int **neighbors;
-  int k_max;
-  vector<int> p;
-  int path_length;
+  int **graph;
+  vector<int> path;
+  int n;
 
-  void swap_u(int i, int k);
-  void swap_d(int i, int k);
-  int reverse_segment_if_better(int i, int j, int k);
-  int dist(int i, int k) { return g[p[i]][p[k]]; }
-
-  void two_opt_swap(int n, int start, int end)
-  {
-    while (end - start > 0)
-    {
-      int tmp = p[start % n];
-      p[start++ % n] = p[end % n];
-      p[end-- % n] = tmp;
-    }
-  }
+  pair<int, int> make_sorted_pair(int x, int y);
+  void reverse_segment(int start, int end);
 
 public:
-  KOPT(int **graph, vector<int> path, int **neighbor, int K_MAX)
-  {
-    g = graph;
-    neighbors = neighbor;
-    p = path;
-    k_max = min(K_MAX, (int)path.size())-1;
+  LK_HEUR(int **g, vector<int> p) {
+    graph = g;
+    path = p;
 
-    path_length = path.size();
+    n = p.size();
   }
 
-  vector<int> get_path() { return p; }
-  void two(clock_t t, int n);
-  void two_half(clock_t t, int n);
-  void three(clock_t t, int n);
-  void shuffle_tour(default_random_engine rng);
-  int path_cost();
-  void set_path(vector<int> path)
-  {
-    p = path;
-  }
+  double path_cost();
+  void make_move(int start);
+  vector<int> get_path() { return path; }
+  void set_path(vector<int> p) { path = p; }
 };

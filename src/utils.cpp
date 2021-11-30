@@ -22,33 +22,6 @@ int **distance_matrix(int n, vector<city_t> v)
   return m;
 }
 
-int **createNeighborsMatrix(int n, int** d, int k_max) {
-
-  k_max = min(n, k_max);
-  int **m = (int **)malloc(n * sizeof(int *));
-  for (int i = 0; i < n; i++)
-  {
-    m[i] = (int *)malloc(k_max * sizeof(int));
-  }
-  vector<int> row(n-1);
-
-  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < n; ++j) {
-      if (i == j) continue;
-      row[j] = j;
-    }
-
-    partial_sort(row.begin(), row.begin() + k_max, row.end(),
-                 [&](uint16_t j, uint16_t k) {
-                     return d[i][j] < d[i][k];
-                 }
-    );
-    copy(row.begin(), row.begin() + k_max - 1, m[i]);
-  }
-  return m;
-}
-
-
 /**
   * @Info:    Calculate the eucledian distance between two points.
   * @Return:  Rounded distance.
@@ -89,14 +62,8 @@ vector<city_t> read_stdin(int &n)
   */
 void print_path(vector<int> path, int **g)
 {
-  int cost = 0;
-  for (uint i = 0; i < path.size(); i++) {
-     cost += g[path[i]][path[i+1]];
-     // cout << path[i] << " ";
-  }
-  cout << "#" << cost << endl;
-  //for (auto p : path)
-    //cout << p << endl;
+  for (auto p : path)
+    cout << p << endl;
 }
 
 /**
