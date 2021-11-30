@@ -97,7 +97,7 @@ void LK_OPT::reverse_segment (int start, int end) {
   } while (current != end);
 }
 
-double LK_HEUR::path_cost () {
+double LK_OPT::path_cost () {
   uint i;
   long cost = 0;
 

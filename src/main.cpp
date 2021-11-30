@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
 
   // setup timer
-  // clock_t current_t, start_t = clock();
+  clock_t current_t, start_t = clock();
 
   // number of cities
   int n;
@@ -36,19 +36,17 @@ int main(int argc, char **argv)
   vector<int> path = hamilton_cycle(n, graph, e_circuit);
 
   // optimise cycle until timeout=2sec
-  LK_HEUR opt = LK_HEUR(graph, path);
-
+  LK_OPT opt = LK_OPT(graph, path);
 
   int freq, move;
-  for (move = 0; move < n; move++) {
-    opt.make_move(move);
+  current_t = clock();
+  for (freq = 0; TIME_MAX(current_t, start_t); current_t = clock(), freq++) {
+    for (move = 0; move < n; move++) {
+      opt.make_move(move);
+    }
   }
-  // current_t = clock();
-  // for (freq = 0; TIME_MAX(current_t, start_t); current_t = clock(), freq++) {
-  //
-  // }
 
-  // path = opt.get_path();
+  path = opt.get_path();
   print_path(path, graph);
 
   return 0;
