@@ -38,19 +38,18 @@ int main(int argc, char **argv)
   // optimise cycle until timeout=2sec
   LK_HEUR opt = LK_HEUR(graph, path);
 
-  int i;
-  for (i = 0; i < n; i++) {
-    opt.make_move(i);
-  }
 
-  int freq;
-  current_t = clock();
-  for (freq = 0; TIME_MAX(current_t, start_t); current_t = clock(), freq++) {
-
+  int freq, move;
+  for (move = 0; move < n; move++) {
+    opt.make_move(move);
   }
+  // current_t = clock();
+  // for (freq = 0; TIME_MAX(current_t, start_t); current_t = clock(), freq++) {
+  //
+  // }
 
   // path = opt.get_path();
-  // print_path(path, graph);
+  print_path(path, graph);
 
   return 0;
 }

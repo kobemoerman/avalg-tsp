@@ -1,7 +1,7 @@
 #include "opt.hpp"
 
 
-void LK_HEUR::make_move(int start) {
+void LK_OPT::make_move(int start) {
   vector<int> opt = path;
 
   pair<int, int> broken_edge;
@@ -72,15 +72,15 @@ void LK_HEUR::make_move(int start) {
   path = opt;
   long distanceAfter = path_cost();
   assert(distanceAfter <= initial_distance);
-  cout << "# " << distanceAfter << " -vs- " << initial_distance << endl;
+  // cout << "# " << distanceAfter << " -vs- " << initial_distance << endl;
 }
 
 
-pair<int, int> LK_HEUR::make_sorted_pair (int x, int y) {
+pair<int, int> LK_OPT::make_sorted_pair (int x, int y) {
   return x < y ? make_pair(x, y) : make_pair(y, x);
 }
 
-void LK_HEUR::reverse_segment (int start, int end) {
+void LK_OPT::reverse_segment (int start, int end) {
   int current = start;
   int next = path[start];
   int nextNext;

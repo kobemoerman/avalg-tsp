@@ -3,7 +3,7 @@ using namespace std;
 #include "main.hpp"
 #include <random>
 
-class LK_HEUR
+class LK_OPT
 {
   int **graph;
   vector<int> path;
@@ -13,7 +13,7 @@ class LK_HEUR
   void reverse_segment(int start, int end);
 
 public:
-  LK_HEUR(int **g, vector<int> p) {
+  LK_OPT(int **g, vector<int> p) {
     graph = g;
     path = p;
 
