@@ -64,6 +64,7 @@ void print_path(vector<int> path, int **g)
 {
   for (auto p : path)
     cout << p << endl;
+  // cout << endl;
 }
 
 /**

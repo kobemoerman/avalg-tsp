@@ -38,16 +38,31 @@ int main(int argc, char **argv)
   // optimise cycle until timeout=2sec
   LK_OPT opt = LK_OPT(graph, path);
 
+  double cost = opt.path_cost(path);
+
+  // cout << "initial cost: " << cost << endl;
+
+  vector<int> best_path = path;
+  double new_cost;
   int freq, move;
   current_t = clock();
   for (freq = 0; TIME_MAX(current_t, start_t); current_t = clock(), freq++) {
-    for (move = 0; move < n; move++) {
-      opt.make_move(move);
+
+    new_cost = opt.lin_kernighan(cost);
+
+    if (new_cost < cost) {
+      cost = new_cost;
+      best_path = opt.get_path();
+      // cout << "new cost: " << cost << endl;
     }
   }
 
-  path = opt.get_path();
-  print_path(path, graph);
+  print_path(best_path, graph);
+
+
+
+  // path = opt.get_path();
+  // print_path(path, graph);
 
   return 0;
 }
